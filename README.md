@@ -294,10 +294,14 @@ kubectl apply -k ops/kubernetes/overlays/k3s
 
 An example workflow is included at `.github/workflows/devops-simulation.yml`.
 
-Before running it, add these repository secrets:
+For private or customized runs, add these repository secrets:
 
 - `MOCK_API_USERNAME`
 - `MOCK_API_PASSWORD`
+
+If those secrets are not set, the example workflow now falls back to the mock-only
+demo credentials `mock-user` / `mock-pass` so the public repo can still run the
+local simulation safely.
 
 ## Key Scripts
 

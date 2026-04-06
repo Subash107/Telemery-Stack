@@ -20,8 +20,8 @@ jobs:
       API_LOGIN_PATH: /login
       API_UPLOAD_PATH: /upload
       API_TIMEOUT_SECONDS: "15"
-      API_USERNAME: ${{ secrets.MOCK_API_USERNAME }}
-      API_PASSWORD: ${{ secrets.MOCK_API_PASSWORD }}
+      API_USERNAME: ${{ secrets.MOCK_API_USERNAME || 'mock-user' }}
+      API_PASSWORD: ${{ secrets.MOCK_API_PASSWORD || 'mock-pass' }}
       TARGETS_FILE: targets/programs.txt
       DB_PATH: database/findings.db
       RESULTS_DIR: results
@@ -42,11 +42,12 @@ jobs:
       - name: Install mock API dependencies
         run: python -m pip install -r services/mock_api/requirements.txt
 
-      - name: Validate secrets
+      - name: Report credential source
         run: |
-          if [ -z "$API_USERNAME" ] || [ -z "$API_PASSWORD" ]; then
-            echo "Set MOCK_API_USERNAME and MOCK_API_PASSWORD in repository secrets."
-            exit 1
+          if [ "${{ secrets.MOCK_API_USERNAME }}" != "" ] && [ "${{ secrets.MOCK_API_PASSWORD }}" != "" ]; then
+            echo "Using repository secrets for mock API credentials."
+          else
+            echo "Repository secrets not set. Using safe demo defaults for the local mock API run."
           fi
 
       - name: Start mock API
