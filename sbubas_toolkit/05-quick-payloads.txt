@@ -1,0 +1,17 @@
+[XSS]
+<script>alert(1)</script>
+"><svg/onload=alert(1)>
+
+[SQLi]
+' OR 1=1--
+admin'--
+
+[JSON]
+{"id":-1}
+{"role":"admin"}
+
+[EDGE VALUES]
+null
+true
+[]
+999999999

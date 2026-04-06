@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+!.env.prod.example
+.git
+.github
+artifacts
+database
+results
+mock_api_uploads
+__pycache__
+*.pyc
+

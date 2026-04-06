@@ -1,0 +1,29 @@
+[TARGET INFO]
+URL:
+Date:
+Account Used:
+
+[RECON]
+Endpoints discovered:
+Parameters:
+Tokens:
+Headers:
+
+[TEST LOG]
+Request:
+Modification:
+Response:
+Observation:
+
+[BUG CANDIDATES]
+1.
+2.
+3.
+
+[CONFIRMED FINDINGS]
+Title:
+Steps:
+Impact:
+PoC:
+
+[NOTES]

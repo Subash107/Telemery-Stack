@@ -1,0 +1,26 @@
+FLOW:
+
+Recon → Mapping → Interception → Manipulation → Observation → Validation → Report
+
+1. Recon
+- Browse all features
+- Map endpoints
+
+2. Mapping
+- Identify parameters, tokens, roles
+
+3. Interception
+- Capture with Burp Proxy
+
+4. Manipulation
+- Send to Repeater
+- Modify params, headers, cookies
+
+5. Observation
+- Compare responses
+
+6. Validation
+- Confirm reproducibility
+
+7. Report
+- Document clean PoC

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bbp-pipeline-config
+  labels:
+    app.kubernetes.io/name: bbp-pipeline
+    app.kubernetes.io/part-of: bbp-final-pro-framework
+data:
+  ENV: dev
+  WORKFLOW_MODE: simulation
+  API_RUNTIME_CONTEXT: local
+  API_URL: http://bbp-mock-api:18080/mock-six-api
+  API_SCHEME: http
+  API_HOST: bbp-mock-api
+  API_PORT: "18080"
+  API_BASE_PATH: /mock-six-api
+  API_HEALTH_PATH: /health
+  API_LOGIN_PATH: /login
+  API_UPLOAD_PATH: /upload
+  API_TIMEOUT_SECONDS: "15"
+  TARGETS_FILE: targets/programs.txt
+  DB_PATH: database/findings.db
+  RESULTS_DIR: results
+  ARTIFACTS_DIR: artifacts
+  MOCK_STORAGE_DIR: mock_api_uploads
+  ENABLE_PACKAGING: "true"
+  ENABLE_API_SYNC: "true"

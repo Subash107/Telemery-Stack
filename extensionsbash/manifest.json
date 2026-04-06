@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Python URL Checker Runner",
+  "version": "1.0.0",
+  "description": "Run the local Python URL checker script from a browser extension.",
+  "permissions": [
+    "nativeMessaging"
+  ],
+  "action": {
+    "default_title": "Run Python URL Checker",
+    "default_popup": "popup.html"
+  }
+}

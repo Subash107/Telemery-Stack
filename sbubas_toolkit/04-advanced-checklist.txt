@@ -1,0 +1,24 @@
+[AUTH]
+- JWT tampering
+- Token expiration bypass
+- Multi-step auth skip
+
+[API]
+- Method switching (GET→POST)
+- Content-Type change
+- Missing auth
+
+[HEADERS]
+- X-Forwarded-For
+- Authorization removal
+- Origin/Referer tampering
+
+[BUSINESS LOGIC]
+- Double spend
+- Race conditions (manual repeat)
+- Workflow bypass
+
+[DATA EXPOSURE]
+- Debug responses
+- Error messages
+- Hidden fields

@@ -1,0 +1,102 @@
+Program highlights
+Closed Scope
+Only accepts reports based on the listed scope. 
+Gold Standard Safe Harbor
+Adheres to Gold Standard Safe Harbor. 
+Platform Standards
+Fully compliant with Platform Standards. 
+1 week, 3 days
+Average time to bounty
+1 week, 3 days
+Average time from submission to bounty
+Rewards summary
+Last updated on August 20, 2025. View changes 
+Each severity lists the 90-day average bounty and the percentage of total resolved reports, if applicable.
+Avg. bounty $500
+35.90% submissions
+
+Avg. bounty $1,000
+23.08% submissions
+
+Avg. bounty n/a
+30.77% submissions
+
+Avg. bounty n/a
+10.26% submissions
+
+
+
+
+
+$200–$500
+$750–$1,500
+$1,500–$3,000
+$5,000–$7,500
+Below is a brief overview of how we determine bounty amounts:
+Severity Assessment: We use the CVSS score to categorize the vulnerability’s qualitative severity (Low, Medium, High, or Critical).
+Bounty Determination: The exact bounty within the specified range is based on a combination of factors, including:
+CVSS Score: The precise CVSS score influences the bounty. For example, a CVSS score of 6.9, at the high end of medium severity, will result in a higher bounty within the medium range.
+Exploit Complexity: More complex exploits typically receive higher bounties, reflecting the effort required to discover and exploit the vulnerability.
+Report Quality and Reproducibility: The clarity, detail, and reproducibility of the report directly affect the bounty. High-quality reports lead to better payouts, while poorly detailed or hard-to-reproduce reports will negatively impact the bounty.
+Impact Assessment: The real-world impact of the vulnerability, including potential data exposure, business implications, affected user base size, and regulatory concerns.
+Scope exclusions
+Core Ineligible Findings are out of scope. 
+Learn more 
+Category
+Exclusion details
+Physical/MitM Attacks
+Any attacks requiring physical access or man-in-the-middle (MitM) attacks, or control over a user’s device.
+Cross-Domain Referer Leakage
+Out of scope unless there is a significant impact, such as the disclosure of authenticated session cookies.
+Cross-Domain Resource Inclusions
+Vulnerabilities involving inclusion of external resources (e.g., JavaScript, images, CSS) from untrusted sources.
+Outdated JavaScript Libraries without PoC
+Only reports with proof-of-concept (PoC) demonstrating actual exploitability of outdated libraries will be accepted.
+Brute Force Attacks
+Reports regarding missing brute force protection are out of scope unless user enumeration is possible.
+OSINT Vulnerabilities
+Vulnerabilities based solely on Open Source Intelligence (OSINT) investigations without a technical exploit.
+Unconfirmed Vulnerability Scanning Reports
+Reports generated solely from automated vulnerability scanners, without confirmation.
+Missing CCA
+Missing DNS resource records for Certificate Authority Authorization (CAA).
+Post-Exploitation Activities (e.g., Lateral Movement, Local Enumeration)
+Once remote access (e.g., via RCE) is achieved, actions like lateral movement, local enumeration, privilege escalation, or network traversal are out of scope. The focus should be on reporting the RCE vulnerability itself, without further exploitation.
+Zero-Day and Recently Disclosed Vulnerabilities
+Zero-day vulnerabilities or vulnerabilities that have been disclosed publicly for less than 30 days.
+Vulnerabilities only affecting users of outdated or unpatched browsers
+Vulnerabilities only affecting users of outdated or unpatched browsers (less than 2 stable versions behind the latest released stable version).
+Overview
+Last updated on April 22, 2025. View changes 
+SIX operates the infrastructure for the financial centers in Switzerland and Spain, thus ensuring the flow of information and money between financial market players. SIX offers exchange services, financial information and banking services with the aim of increasing efficiency, quality and innovative capacity along the entire value chain. SIX is also building a digital infrastructure for the new millennium.
+The threat of cyberattacks is a major risk and one that SIX takes very seriously. With strict security guidelines and a strong cyber-defense, we protect assets such as data centers, confidential information and our property as well as that of third parties.
+The collaboration with security researchers is an additional valued measure to identify and mitigate existing vulnerabilities in a timely manner. Thus, if you have information about a vulnerability in any of our systems or web applications, then we want to hear from you!
+Eligibility Guidelines
+General
+You agree and adhere to the Program Rules and Legal terms as stated in this policy.
+Do not engage in any activity that can potentially or actually cause harm to SIX, our customers, or our employees.
+Do not engage in any activity that can potentially or actually stop or degrade SIX services or assets.
+Social engineering (e.g. physical, phishing, vishing, smishing) is prohibited.
+Testing and/or research must be on in-scope systems only. If you’re not sure whether a system is in scope, please ask.
+Security researchers should refrain from disclosing issues publicly prior to a mutually agreed upon disclosure date.
+Do not store, share, compromise or destroy SIX or customer data. If Personally Identifiable Information (PII) is encountered, you should immediately halt your activity, purge related data from your system, and immediately contact SIX. This step protects any potentially vulnerable data, and you.
+SIX employees and third-party assets employees are not eligible for participation in this program.
+Accounts
+Only interact with accounts you own or granted by the program team. This also applies to password brute force attacks.
+Tooling
+Only use exploits to the extent necessary to confirm a vulnerability’s presence. Do not use an exploit to compromise or exfiltrate data, establish persistent command line access, or use the exploit to pivot to other systems.
+Do not attempt to conduct post-exploitation, including modification or destruction of data, establishing persistence.
+Append the string “bugbounty” to your user agent for all HTTP/HTTPS traffic before performing any testing.
+Do not perform any kind of automated scans (e.g., via Burp Suite, Nuclei, SqlMap, etc.) on SIX assets.
+Submission / Reporting Criteria
+Please provide detailed reports with reproducible steps. If the report is not detailed enough to reproduce the issue, the issue may not be marked as triaged.
+Submit one vulnerability per report, unless you need to chain vulnerabilities to provide impact.
+You are the first to submit a sufficiently reproducible report for an issue in order to be eligible for a bounty.
+You are available to supply additional information, as needed by our team, to reproduce and triage the issue.
+Multiple vulnerabilities caused by one underlying issue will be treated as one valid report.
+In case that a reported vulnerability was already known to the company from our own tests, it will be flagged as a duplicate.
+If applicable, provide information about necessary cleanup steps (e.g., removal of uploaded files) to establish the targets initial state prior to testing.
+For assets not explicitly listed in our scope, we will evaluate them on a case-by-case basis. Please note that acquisitions are considered outside of our scope. Many of these assets are not part of our core production infrastructure; therefore, we cannot guarantee the remediation of vulnerabilities. Such cases will not qualify for bounties. Since this is not our standard process, response times and the overall evaluation timeline may be longer than usual.
+Rewards
+Our rewards are based on the severity of a vulnerability, please refer to the bounty table at the top of this policy page. HackerOne uses CVSS 3.0 (Common Vulnerability Scoring Standard) to calculate severity. Please note, however, that reward decisions are up to the discretion of SIX and reward amounts may be adjusted mid-Challenge. Examples of issues that may be considered to be lower severity given additional context include: a reflected XSS that has minimal impact (only works in some browsers, can’t be used to steal session information); or an RCE on an asset that doesn’t house production data.
+Thank you for helping keep SIX Group and our users safe!

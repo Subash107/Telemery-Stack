@@ -1,0 +1,13 @@
+BURP PRO WORKFLOW (MANUAL SAFE)
+
+1. Use Proxy → Intercept OFF
+2. Send interesting requests to Repeater
+3. Use Comparer to diff responses
+
+OPTIONAL (SAFE):
+- Session handling rules for login flow replay
+- Cookie jar tracking
+
+DO NOT:
+- Use automated scanners
+- Use brute force tools

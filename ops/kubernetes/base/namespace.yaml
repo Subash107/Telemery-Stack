@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bbp-dev
+  labels:
+    app.kubernetes.io/name: bbp-final-pro-framework
+    app.kubernetes.io/part-of: bbp-dev

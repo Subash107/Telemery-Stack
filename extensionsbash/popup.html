@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Python URL Checker</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <p class="eyebrow">Browser Extension</p>
+        <h1>Run your Python URL checker</h1>
+        <p class="subtitle">
+          Enter two URLs and the extension will call the local native host, which runs your Python logic.
+        </p>
+      </header>
+
+      <form id="url-form" class="panel">
+        <label class="field">
+          <span>First URL</span>
+          <input id="url-1" name="url1" type="url" placeholder="https://example.com" required>
+        </label>
+
+        <label class="field">
+          <span>Second URL</span>
+          <input id="url-2" name="url2" type="url" placeholder="https://example.org" required>
+        </label>
+
+        <label class="field">
+          <span>MITM Proxy URL</span>
+          <input id="proxy-url" name="proxyUrl" type="url" placeholder="http://192.168.1.6:8082" required>
+        </label>
+
+        <button id="run-button" type="submit">Run Python Script</button>
+      </form>
+
+      <section class="panel output-panel">
+        <div class="output-header">
+          <h2>Result</h2>
+          <span id="status-pill" class="pill idle">Idle</span>
+        </div>
+        <pre id="output" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

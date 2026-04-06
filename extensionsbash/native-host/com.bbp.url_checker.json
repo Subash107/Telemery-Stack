@@ -1,0 +1,9 @@
+{
+    "path":  "D:\\Kali linux\\bbp_final_pro_framework\\extensionsbash\\native-host\\dist\\bbp_url_checker_host.exe",
+    "description":  "Native messaging host for the Python URL checker browser extension",
+    "name":  "com.bbp.url_checker",
+    "allowed_origins":  [
+                            "chrome-extension://ffakajkjpmgbfiaijboejmngheimeifh/"
+                        ],
+    "type":  "stdio"
+}

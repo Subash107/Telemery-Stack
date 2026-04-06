@@ -1,0 +1,41 @@
+{
+  "mode": "pattern",
+  "sync": true,
+  "autoBackup": true,
+  "passthrough": "",
+  "theme": "",
+  "container": {},
+  "commands": {
+    "setProxy": "127.0.0.1:8080",
+    "setTabProxy": "",
+    "includeHost": "",
+    "excludeHost": "127.0.0.1:8080"
+  },
+  "data": [
+    {
+      "active": true,
+      "title": "Burp",
+      "type": "http",
+      "hostname": "127.0.0.1",
+      "port": "8080",
+      "username": "",
+      "password": "",
+      "cc": "NP",
+      "city": "kathmandu",
+      "color": "#6a5acd",
+      "pac": "",
+      "pacString": "",
+      "proxyDNS": true,
+      "include": [
+        {
+          "type": "wildcard",
+          "title": "chatgpt.com",
+          "pattern": "https://chatgpt.com/",
+          "active": true
+        }
+      ],
+      "exclude": [],
+      "tabProxy": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package bbp.mockapi.v1;
+
+service MockSixAPI {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc UploadArchive(UploadArchiveRequest) returns (UploadArchiveResponse);
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  string service = 2;
+  string storage_dir = 3;
+  repeated string transports = 4;
+  string http_base_path = 5;
+  string grpc_address = 6;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  string token_type = 2;
+}
+
+message UploadArchiveRequest {
+  string program = 1;
+  string filename = 2;
+  string sha256 = 3;
+  bytes archive = 4;
+}
+
+message UploadArchiveResponse {
+  string message = 1;
+  string program = 2;
+  string filename = 3;
+  int64 bytes_written = 4;
+  string sha256 = 5;
+  string saved_to = 6;
+}

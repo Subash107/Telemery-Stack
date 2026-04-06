@@ -1,0 +1,44 @@
+# Edit these targets if the Kali VM IP or service ports change.
+# The current defaults match the lab services configured on 192.168.1.22.
+
+- targets:
+    - 192.168.1.22
+  labels:
+    environment: lab
+    module: icmp
+    service: kali-host
+
+- targets:
+    - 192.168.1.22:22
+  labels:
+    environment: lab
+    module: ssh_banner
+    service: ssh
+
+- targets:
+    - 192.168.1.22:50051
+  labels:
+    environment: lab
+    module: tcp_connect
+    service: grpc-greeter-plain
+
+- targets:
+    - 192.168.1.22:50052
+  labels:
+    environment: lab
+    module: tcp_connect
+    service: grpc-greeter-tls
+
+- targets:
+    - 192.168.1.22:50061
+  labels:
+    environment: lab
+    module: tcp_connect
+    service: grpc-bbp-mock-api
+
+- targets:
+    - 192.168.1.22:50062
+  labels:
+    environment: lab
+    module: tcp_connect
+    service: grpc-bbp-mock-api-tls

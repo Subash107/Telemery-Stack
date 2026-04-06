@@ -1,0 +1,35 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      preferred_ip_protocol: ip4
+
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+
+  ssh_banner:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      query_response:
+        - expect: "^SSH-2.0-"
+        - send: "SSH-2.0-bbp-observability"
+
+  icmp:
+    prober: icmp
+    timeout: 5s
+
+  grpc_plain:
+    prober: grpc
+    timeout: 5s
+    grpc:
+      tls: false
+
+  grpc_tls:
+    prober: grpc
+    timeout: 5s
+    grpc:
+      tls: true
+      preferred_ip_protocol: ip4

@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: bbp-dev
+
+resources:
+  - ../../base
+  - mock-api-credentials.secret.yaml
+
+patches:
+  - target:
+      kind: Service
+      name: bbp-mock-api
+    patch: |-
+      - op: replace
+        path: /spec/type
+        value: NodePort
+      - op: add
+        path: /spec/ports/0/nodePort
+        value: 30080
+      - op: add
+        path: /spec/ports/1/nodePort
+        value: 30061

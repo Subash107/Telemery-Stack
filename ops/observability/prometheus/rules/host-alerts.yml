@@ -1,0 +1,65 @@
+groups:
+  - name: host-and-service-health
+    rules:
+      - alert: HostUnreachable
+        expr: probe_success{job="service-probes", service="kali-host"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kali VM is unreachable"
+          description: "The ICMP probe to {{ $labels.instance }} has failed for more than two minutes."
+
+      - alert: ServiceProbeDown
+        expr: probe_success{job="service-probes", service!="kali-host"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.service }} probe failed"
+          description: "The {{ $labels.module }} probe to {{ $labels.instance }} has failed for more than two minutes."
+
+      - alert: ServiceProbeSlow
+        expr: avg_over_time(probe_duration_seconds{job="service-probes"}[10m]) > 1
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.service }} is responding slowly"
+          description: "The average probe duration for {{ $labels.instance }} has exceeded one second for 15 minutes."
+
+      - alert: PrometheusScrapeTargetDown
+        expr: up{job=~"prometheus|alertmanager|blackbox-exporter|node-exporter|cadvisor"} == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.job }} is down"
+          description: "Prometheus has been unable to scrape {{ $labels.instance }} for at least five minutes."
+
+      - alert: HostHighCPU
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{job="node-exporter", mode="idle"}[5m])) * 100) > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU usage is high on {{ $labels.instance }}"
+          description: "Average CPU usage has stayed above 85% for at least 10 minutes."
+
+      - alert: HostMemoryPressure
+        expr: (node_memory_MemAvailable_bytes{job="node-exporter"} / node_memory_MemTotal_bytes{job="node-exporter"}) * 100 < 15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Available memory is low on {{ $labels.instance }}"
+          description: "Available memory has stayed below 15% for at least 10 minutes."
+
+      - alert: HostDiskLow
+        expr: 100 * node_filesystem_avail_bytes{job="node-exporter", mountpoint="/", fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{job="node-exporter", mountpoint="/", fstype!~"tmpfs|overlay"} < 15
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Root filesystem space is low on {{ $labels.instance }}"
+          description: "The root filesystem has less than 15% free space remaining."

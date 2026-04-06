@@ -1,0 +1,29 @@
+groups:
+  - name: bbp-pipeline
+    rules:
+      - alert: BBPPipelineRunFailed
+        expr: bbp_pipeline_last_run_success == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "The latest BBP pipeline run failed"
+          description: "The most recent simulation run exited with a non-zero status."
+
+      - alert: BBPPipelineRunStale
+        expr: time() - bbp_pipeline_last_run_timestamp_seconds > 86400
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "The BBP pipeline has not run in the last 24 hours"
+          description: "No fresh simulation snapshot has been written in the last day."
+
+      - alert: BBPPipelineUploadFailures
+        expr: bbp_pipeline_last_run_upload_failures > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "The last BBP pipeline run had upload failures"
+          description: "The latest simulation run reported one or more archive upload failures."

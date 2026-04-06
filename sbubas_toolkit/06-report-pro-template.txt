@@ -1,0 +1,22 @@
+Title:
+Severity:
+Target:
+
+Summary:
+Clear description of vulnerability
+
+Steps to Reproduce:
+1.
+2.
+3.
+
+Expected Result:
+Actual Result:
+
+Impact:
+(Security + business impact)
+
+Proof of Concept:
+(Request/Response)
+
+Suggested Fix:

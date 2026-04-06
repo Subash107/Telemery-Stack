@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bbp-mock-api
+  labels:
+    app.kubernetes.io/name: bbp-mock-api
+    app.kubernetes.io/part-of: bbp-final-pro-framework
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bbp-mock-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bbp-mock-api
+        app.kubernetes.io/part-of: bbp-final-pro-framework
+    spec:
+      containers:
+        - name: mock-api
+          image: bbp_final_pro_framework-mock-api:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - bash
+            - scripts/start_mock_api.sh
+          envFrom:
+            - configMapRef:
+                name: bbp-mock-api-config
+            - secretRef:
+                name: bbp-mock-api-credentials
+          ports:
+            - containerPort: 18080
+              name: http
+            - containerPort: 50061
+              name: grpc
+          readinessProbe:
+            httpGet:
+              path: /mock-six-api/health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /mock-six-api/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: mock-api-storage
+              mountPath: /workspace/mock_api_uploads
+      volumes:
+        - name: mock-api-storage
+          emptyDir: {}

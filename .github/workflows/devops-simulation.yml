@@ -1,0 +1,69 @@
+name: Safe DevOps Simulation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/devops-simulation.yml"
+      - ".env.example"
+      - "scripts/**"
+      - "targets/**"
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    env:
+      ENV: dev
+      WORKFLOW_MODE: simulation
+      API_URL: http://127.0.0.1:18080/mock-six-api
+      API_HEALTH_PATH: /health
+      API_LOGIN_PATH: /login
+      API_UPLOAD_PATH: /upload
+      API_TIMEOUT_SECONDS: "15"
+      API_USERNAME: ${{ secrets.MOCK_API_USERNAME }}
+      API_PASSWORD: ${{ secrets.MOCK_API_PASSWORD }}
+      TARGETS_FILE: targets/programs.txt
+      DB_PATH: database/findings.db
+      RESULTS_DIR: results
+      ARTIFACTS_DIR: artifacts
+      MOCK_STORAGE_DIR: mock_api_uploads
+      ENABLE_PACKAGING: "true"
+      ENABLE_API_SYNC: "true"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install mock API dependencies
+        run: python -m pip install -r services/mock_api/requirements.txt
+
+      - name: Validate secrets
+        run: |
+          if [ -z "$API_USERNAME" ] || [ -z "$API_PASSWORD" ]; then
+            echo "Set MOCK_API_USERNAME and MOCK_API_PASSWORD in repository secrets."
+            exit 1
+          fi
+
+      - name: Start mock API
+        run: |
+          nohup bash scripts/start_mock_api.sh > mock-api.log 2>&1 &
+          sleep 2
+
+      - name: Run pipeline
+        run: bash scripts/run.sh
+
+      - name: Upload pipeline artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: devops-simulation-output
+          path: |
+            artifacts/
+            database/
+            results/
+            mock_api_uploads/
+            mock-api.log

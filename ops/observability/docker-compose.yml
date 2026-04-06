@@ -1,0 +1,99 @@
+name: bbp-observability
+
+services:
+  prometheus:
+    image: quay.io/prometheus/prometheus:${PROMETHEUS_VERSION:-v3.11.0}
+    container_name: bbp-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-15d}
+      - --web.enable-lifecycle
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules:/etc/prometheus/rules:ro
+      - ./prometheus/targets:/etc/prometheus/targets:ro
+      - prometheus-data:/prometheus
+    depends_on:
+      - alertmanager
+      - blackbox-exporter
+      - node-exporter
+      - cadvisor
+    restart: unless-stopped
+
+  alertmanager:
+    image: quay.io/prometheus/alertmanager:${ALERTMANAGER_VERSION:-v0.31.1}
+    container_name: bbp-alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    ports:
+      - "${ALERTMANAGER_PORT:-9093}:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    restart: unless-stopped
+
+  blackbox-exporter:
+    image: quay.io/prometheus/blackbox-exporter:${BLACKBOX_EXPORTER_VERSION:-v0.28.0}
+    container_name: bbp-blackbox-exporter
+    command:
+      - --config.file=/etc/blackbox_exporter/blackbox.yml
+    ports:
+      - "${BLACKBOX_EXPORTER_PORT:-9115}:9115"
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/blackbox.yml:ro
+    restart: unless-stopped
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:${NODE_EXPORTER_VERSION:-v1.11.0}
+    container_name: bbp-node-exporter
+    command:
+      - --path.rootfs=/host
+      - --collector.textfile.directory=/textfile_collector
+    pid: host
+    volumes:
+      - /:/host:ro
+      - ./data/node-exporter/textfile:/textfile_collector:ro
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:${CADVISOR_VERSION:-v0.55.1}
+    container_name: bbp-cadvisor
+    ports:
+      - "${CADVISOR_PORT:-8080}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    devices:
+      - /dev/kmsg
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:${GRAFANA_VERSION:-12.4.2}
+    container_name: bbp-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-change-me}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://localhost:3000}
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - alertmanager
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  alertmanager-data:
+  grafana-data:

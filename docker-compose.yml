@@ -1,0 +1,72 @@
+services:
+  mock-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.devops
+    working_dir: /workspace
+    command: bash scripts/start_mock_api.sh
+    environment:
+      ENV: dev
+      WORKFLOW_MODE: simulation
+      API_URL: http://mock-api:18080/mock-six-api
+      API_RUNTIME_CONTEXT: docker
+      API_SCHEME: http
+      API_HOST: mock-api
+      API_PORT: "18080"
+      API_BASE_PATH: /mock-six-api
+      API_HEALTH_PATH: /health
+      API_LOGIN_PATH: /login
+      API_UPLOAD_PATH: /upload
+      API_TIMEOUT_SECONDS: ${COMPOSE_API_TIMEOUT_SECONDS:-15}
+      MOCK_API_BIND_HOST: 0.0.0.0
+      MOCK_API_BIND_PORT: "18080"
+      MOCK_API_GRPC_BIND_HOST: 0.0.0.0
+      MOCK_API_GRPC_BIND_PORT: "50061"
+      MOCK_API_USERNAME: ${COMPOSE_MOCK_API_USERNAME:-mock-user}
+      MOCK_API_PASSWORD: ${COMPOSE_MOCK_API_PASSWORD:-mock-pass}
+      MOCK_STORAGE_DIR: ${COMPOSE_MOCK_STORAGE_DIR:-mock_api_uploads}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18080/mock-six-api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 2s
+    ports:
+      - "${COMPOSE_MOCK_API_PORT:-18080}:18080"
+      - "${COMPOSE_MOCK_API_GRPC_PORT:-50061}:50061"
+    volumes:
+      - .:/workspace
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile.devops
+    working_dir: /workspace
+    command: bash scripts/run.sh
+    depends_on:
+      mock-api:
+        condition: service_healthy
+    environment:
+      ENV: dev
+      WORKFLOW_MODE: simulation
+      API_URL: http://mock-api:18080/mock-six-api
+      API_RUNTIME_CONTEXT: docker
+      API_SCHEME: http
+      API_HOST: mock-api
+      API_PORT: "18080"
+      API_BASE_PATH: /mock-six-api
+      API_HEALTH_PATH: /health
+      API_LOGIN_PATH: /login
+      API_UPLOAD_PATH: /upload
+      API_TIMEOUT_SECONDS: ${COMPOSE_API_TIMEOUT_SECONDS:-15}
+      API_USERNAME: ${COMPOSE_MOCK_API_USERNAME:-mock-user}
+      API_PASSWORD: ${COMPOSE_MOCK_API_PASSWORD:-mock-pass}
+      TARGETS_FILE: ${COMPOSE_TARGETS_FILE:-targets/programs.txt}
+      DB_PATH: ${COMPOSE_DB_PATH:-database/findings.db}
+      RESULTS_DIR: ${COMPOSE_RESULTS_DIR:-results}
+      ARTIFACTS_DIR: ${COMPOSE_ARTIFACTS_DIR:-artifacts}
+      MOCK_STORAGE_DIR: ${COMPOSE_MOCK_STORAGE_DIR:-mock_api_uploads}
+      ENABLE_PACKAGING: ${COMPOSE_ENABLE_PACKAGING:-true}
+      ENABLE_API_SYNC: ${COMPOSE_ENABLE_API_SYNC:-true}
+    volumes:
+      - .:/workspace
